@@ -171,13 +171,20 @@ class UserInterface:
         #Adapt for 2016 incidents selection from GUI
         if ((self.n1.get()=='Trafic Accidents')and(self.n2.get()=='2016')):
             df = self.read_mongo(db, "traffic_i16")
+            # df = df.assign(freq=df.groupby('INCIDENT INFO')['INCIDENT INFO'].transform('count'))\
+            #     .sort_values(by=['freq','INCIDENT INFO'],ascending=[False,True])
+            print(df.columns)
+            if sort_it:
+                df = df.assign(freq=df.groupby('INCIDENT INFO')['INCIDENT INFO'].transform('count'))\
+                    .sort_values(by=['freq','INCIDENT INFO'],ascending=[False,True])
+            print(df.head(5))
+            print(df.columns)
+            print("yes", df.iloc[0]['location'])   
             records = df.to_records(index=False)
             result_to_print = list(records)
             myLabel1=tk.Label(self.lbl_frame,text=df.head(5))
             myLabel1.config(width=85)
             myLabel1.grid(row=1,column=2)
-            #print('\n',result_to_print[i])
-            #TO DO// print to right frame
 
         #Adapt for 2017 incidents selection from GUI
         if ((self.n1.get()=='Trafic Accidents')and(self.n2.get()=='2017')):
